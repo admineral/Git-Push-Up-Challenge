@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
   LabelList,
+  DotProps,
 } from 'recharts';
 import {
   Card,
@@ -28,6 +29,12 @@ interface ChartData {
   pushups: number;
   cumulativePushups: number;
   quarterMark?: boolean;
+}
+
+interface CustomDotProps extends DotProps {
+  payload?: ChartData;
+  cx?: number;
+  cy?: number;
 }
 
 interface LineChartProps {
@@ -118,7 +125,7 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
               name="cumulativePushups"
               stroke="rgb(239, 68, 68)"
               strokeWidth={2}
-              dot={(props: any) => {
+              dot={(props: CustomDotProps) => {
                 const today = new Date().toLocaleDateString('en-US', { 
                   month: 'short', 
                   day: 'numeric' 
@@ -128,24 +135,28 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                 if (props?.payload?.date === today) {
                   return (
                     <g key={dotId}>
-                      <circle 
-                        key={`${dotId}-circle`}
-                        cx={props.cx} 
-                        cy={props.cy} 
-                        r={4}
-                        fill="rgb(239, 68, 68)"
-                      />
-                      <text
-                        key={`${dotId}-text`}
-                        x={props.cx}
-                        y={props.cy - 10}
-                        textAnchor="middle"
-                        fill="rgb(239, 68, 68)"
-                        fontSize={10}
-                        className="hidden sm:block"
-                      >
-                        {formatNumber(props.payload.cumulativePushups)}
-                      </text>
+                      {props.cx != null && props.cy != null && (
+                        <>
+                          <circle 
+                            key={`${dotId}-circle`}
+                            cx={props.cx} 
+                            cy={props.cy} 
+                            r={4}
+                            fill="rgb(239, 68, 68)"
+                          />
+                          <text
+                            key={`${dotId}-text`}
+                            x={props.cx}
+                            y={props.cy - 10}
+                            textAnchor="middle"
+                            fill="rgb(239, 68, 68)"
+                            fontSize={10}
+                            className="hidden sm:block"
+                          >
+                            {formatNumber(props.payload.cumulativePushups)}
+                          </text>
+                        </>
+                      )}
                     </g>
                   );
                 }

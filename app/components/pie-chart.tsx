@@ -16,7 +16,6 @@ import {
   ChartContainer,
   ChartStyle,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart"
 import {
   Select,
@@ -77,7 +76,19 @@ const chartConfig = {
   ),
 } satisfies ChartConfig;
 
-export function PieChartComponent() {
+interface PieChartComponentProps {
+  totalPushups: number;
+  todaysPushups: number;
+  completedDays: number;
+  totalWeekdays: number;
+}
+
+export function PieChartComponent({
+  totalPushups,
+  todaysPushups,
+  completedDays,
+  totalWeekdays
+}: PieChartComponentProps) {
   const id = "pie-interactive"
   const [activeMonth, setActiveMonth] = React.useState(monthlyData[0].month)
 
@@ -97,7 +108,9 @@ export function PieChartComponent() {
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
           <CardTitle className="text-white">Monthly Pushup Distribution</CardTitle>
-          <CardDescription className="text-gray-400">Total pushups per month</CardDescription>
+          <CardDescription className="text-gray-400">
+            {formatNumber(completedDays)} of {formatNumber(totalWeekdays)} days completed • {formatNumber(todaysPushups)} pushups today • {formatNumber(totalPushups)} total pushups
+          </CardDescription>
         </div>
         <Select value={activeMonth} onValueChange={setActiveMonth}>
           <SelectTrigger

@@ -45,20 +45,21 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
 
   return (
     <Card className="bg-gray-900/50 shadow-lg border border-red-500/20 backdrop-blur-sm">
-      <CardHeader>
-        <CardTitle className="text-white">2025 Pushup Challenge</CardTitle>
-        <CardDescription className="text-gray-400">Daily Progress</CardDescription>
+      <CardHeader className="space-y-2">
+        <CardTitle className="text-white text-xl sm:text-2xl">2025 Pushup Challenge</CardTitle>
+        <CardDescription className="text-gray-400 text-sm sm:text-base">Daily Progress</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0 sm:p-6">
         <ChartContainer config={chartConfig}>
           <LineChart
             data={chartData}
             margin={{
               top: 20,
-              right: 50,
+              right: 30,
               left: 0,
               bottom: 20,
             }}
+            className="w-full min-h-[300px] sm:min-h-[400px]"
           >
             <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.1)" />
             <XAxis
@@ -67,8 +68,8 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
               axisLine={false}
               tickMargin={8}
               stroke="rgb(156, 163, 175)"
-              tick={{ fill: 'rgb(156, 163, 175)', fontSize: 12 }}
-              interval={30}
+              tick={{ fill: 'rgb(156, 163, 175)', fontSize: 10, dy: 10 }}
+              interval="preserveStartEnd"
             />
             <YAxis
               orientation="right"
@@ -79,7 +80,7 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
               tickFormatter={formatNumber}
               domain={[0, 48000]}
               stroke="rgb(156, 163, 175)"
-              tick={{ fill: 'rgb(156, 163, 175)', fontSize: 12 }}
+              tick={{ fill: 'rgb(156, 163, 175)', fontSize: 10 }}
             />
             <ChartTooltip
               cursor={false}
@@ -87,21 +88,21 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                 if (!active || !payload?.length) return null;
                 const data = payload[0].payload;
                 return (
-                  <div className="rounded-lg border border-red-500/20 bg-gray-900/95 p-3 shadow-xl backdrop-blur-sm">
-                    <div className="grid gap-3">
+                  <div className="rounded-lg border border-red-500/20 bg-gray-900/95 p-2 sm:p-3 shadow-xl backdrop-blur-sm">
+                    <div className="grid gap-2 sm:gap-3">
                       <div className="border-b border-red-500/20 pb-2">
-                        <span className="text-white font-medium">{data.date}</span>
+                        <span className="text-white font-medium text-sm sm:text-base">{data.date}</span>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <div className="flex justify-between gap-8">
-                          <span className="text-gray-400">Today:</span>
-                          <span className="font-semibold text-red-500">
+                        <div className="flex justify-between gap-4 sm:gap-8">
+                          <span className="text-gray-400 text-xs sm:text-sm">Today:</span>
+                          <span className="font-semibold text-red-500 text-xs sm:text-sm">
                             {formatNumber(data.pushups)} pushups
                           </span>
                         </div>
-                        <div className="flex justify-between gap-8">
-                          <span className="text-gray-400">Total:</span>
-                          <span className="font-semibold text-white">
+                        <div className="flex justify-between gap-4 sm:gap-8">
+                          <span className="text-gray-400 text-xs sm:text-sm">Total:</span>
+                          <span className="font-semibold text-white text-xs sm:text-sm">
                             {formatNumber(data.cumulativePushups)} pushups
                           </span>
                         </div>
@@ -131,16 +132,17 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                         key={`${dotId}-circle`}
                         cx={props.cx} 
                         cy={props.cy} 
-                        r={6} 
+                        r={4}
                         fill="rgb(239, 68, 68)"
                       />
                       <text
                         key={`${dotId}-text`}
                         x={props.cx}
-                        y={props.cy - 12}
+                        y={props.cy - 10}
                         textAnchor="middle"
                         fill="rgb(239, 68, 68)"
-                        fontSize={12}
+                        fontSize={10}
+                        className="hidden sm:block"
                       >
                         {formatNumber(props.payload.cumulativePushups)}
                       </text>
@@ -149,14 +151,14 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                 }
                 return <g key={`empty-${dotId}`}></g>;
               }}
-              activeDot={{ r: 8 }}
+              activeDot={{ r: 6 }}
             >
               <LabelList
                 dataKey="cumulativePushups"
                 position="top"
                 offset={12}
-                className="fill-white"
-                fontSize={12}
+                className="fill-white hidden sm:block"
+                fontSize={10}
                 formatter={formatNumber}
                 content={(props) => {
                   if (!props || typeof props.value !== 'number') return null;
@@ -183,7 +185,8 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                       y={yPos - 12}
                       textAnchor="middle"
                       fill="rgb(239, 68, 68)"
-                      fontSize={12}
+                      fontSize={10}
+                      className="hidden sm:block"
                     >
                       {formatNumber(props.value)}
                     </text>
@@ -194,9 +197,9 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex-col items-start gap-2 text-xs sm:text-sm p-4 sm:p-6">
         <div className="flex gap-2 font-medium leading-none text-red-500">
-          Next milestone: {formatNumber(48000)} pushups <TrendingUp className="h-4 w-4" />
+          Next milestone: {formatNumber(48000)} pushups <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
         </div>
         <div className="leading-none text-gray-400">
           Showing daily progress excluding weekends

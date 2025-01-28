@@ -2,7 +2,7 @@
 
 import { useMemo, useCallback } from 'react';
 import { PieChartComponent } from './components/pie-chart';
-import { StatsOverview } from './components/stats-overview';
+
 import { UpcomingDays } from './components/upcoming-days';
 import { PushupLineChart } from './components/line-chart';
 
@@ -34,6 +34,20 @@ const CUMULATIVE_DAYS = DAYS_IN_MONTH.reduce((acc, days, index) => {
 const isWeekend = (date: Date): boolean => {
   const day = date.getDay();
   return day === 0 || day === 6; // 0 is Sunday, 6 is Saturday
+};
+
+// Calculate total weekdays in the year
+const calculateTotalWeekdays = (year: number): number => {
+  let count = 0;
+  const startDate = new Date(year, 0, 1);  // January 1st
+  const endDate = new Date(year, 11, 31);  // December 31st
+
+  for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+    if (!isWeekend(d)) {
+      count++;
+    }
+  }
+  return count;
 };
 
 export default function Home() {
@@ -136,36 +150,38 @@ export default function Home() {
     return count;
   }, []);
 
+  // Calculate total weekdays for the year
+  const totalWeekdays = useMemo(() => {
+    return calculateTotalWeekdays(new Date().getFullYear());
+  }, []);
+
   const formatNumber = useCallback((num: number): string => {
     return new Intl.NumberFormat('en-US').format(num);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black p-8">
-      <div className="mx-auto max-w-5xl space-y-8">
-        {/* Stats Overview */}
-        <StatsOverview 
-          todaysPushups={todaysPushups}
-          totalPushups={totalPushups}
-          completedDays={completedDays}
-          formatNumber={formatNumber}
-        />
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4 sm:p-8">
+      <div className="mx-auto max-w-5xl space-y-4 sm:space-y-8">
 
-        {/* Pie Chart */}
-        <PieChartComponent />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+          {/* Pie Chart */}
+          <PieChartComponent />
+
+          {/* Upcoming Days */}
+          <UpcomingDays 
+            upcomingDays={upcomingDays}
+            formatNumber={formatNumber}
+          />
+        </div>
 
         {/* Line Chart */}
         <PushupLineChart 
           chartData={chartData}
           formatNumber={formatNumber}
         />
-
-        {/* Upcoming Days */}
-        <UpcomingDays 
-          upcomingDays={upcomingDays}
-          formatNumber={formatNumber}
-        />
       </div>
     </div>
   );
 }
+

@@ -1,4 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏋️‍♂️ Pushup Challenge Dashboard
+
+A modern, sleek dashboard built with Next.js and Recharts to track your daily pushup challenge progress throughout the year. Features a dark-themed UI with elegant red accents and glass-morphism effects.
+
+## 🚀 Features
+
+- **Daily Goal Tracking**: Automatically calculates and displays your daily pushup targets
+- **Progress Visualization**: Beautiful line chart showing cumulative progress
+- **Smart Scheduling**: Excludes weekends and shows upcoming weekday challenges
+- **Real-time Stats**: 
+  - Today's pushup goal
+  - Total pushups for the year
+  - Overall progress percentage
+- **Modern UI/UX**:
+  - Responsive design
+  - Glass-morphism effects
+  - Dark theme with vibrant red accents
+  - Interactive tooltips and data points
+
+## 🛠️ Built With
+
+- Next.js
+- Recharts for data visualization
+- Tailwind CSS for styling
+- TypeScript for type safety
+
+## 💪 Motivation
+
+Track your fitness journey with style! This dashboard helps you maintain consistency in your pushup challenge by providing clear goals and visual progress tracking.
+
+## 🎯 Challenge Rules
+
+- Daily pushup count increases based on the day of the year
+- Weekends are rest days (automatically excluded)
+- Progress is tracked cumulatively throughout the year
+- Milestone markers at quarter points for motivation
 
 ## Getting Started
 

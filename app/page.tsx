@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useCallback } from 'react';
+import Image from "next/image";
 import { PieChartComponent } from './components/pie-chart';
 
 import { UpcomingDays } from './components/upcoming-days';
@@ -76,18 +77,16 @@ export default function Home() {
           total += pushups;
           cumulative += pushups;
 
-          // Only add weekdays to reduce data points
-          if (day % 2 === 0 || day === 1 || day === daysInMonth) {
-            data.push({
-              date: date.toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric' 
-              }),
-              pushups,
-              cumulativePushups: cumulative,
-              quarterMark: day === 1 && month % 3 === 0
-            });
-          }
+          // Add all weekdays to the data points
+          data.push({
+            date: date.toLocaleDateString('en-US', { 
+              month: 'short', 
+              day: 'numeric' 
+            }),
+            pushups,
+            cumulativePushups: cumulative,
+            quarterMark: day === 1 && month % 3 === 0
+          });
         }
       }
     });
@@ -160,31 +159,51 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4 sm:p-8">
-      <div className="mx-auto max-w-5xl space-y-4 sm:space-y-8">
-
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
-          {/* Pie Chart */}
-          <PieChartComponent 
-            totalPushups={totalPushups}
-            todaysPushups={todaysPushups}
-            completedDays={completedDays}
-            totalWeekdays={totalWeekdays}
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4 sm:p-6">
+      <div className="mx-auto max-w-[1920px] space-y-4 sm:space-y-6">
+        <div className="flex items-center justify-center gap-4 mb-8">
+          <Image
+            src="/pushup.png"
+            alt="ACP Push Up Challenge Logo"
+            width={200}
+            height={200}
+            priority
+            className="w-[80px] h-auto sm:w-[100px]"
           />
-
-          {/* Upcoming Days */}
-          <UpcomingDays 
-            upcomingDays={upcomingDays}
-            formatNumber={formatNumber}
-          />
+          <h1 className="text-3xl sm:text-5xl font-bold text-red-600">
+            DOA Push Up Challenge
+          </h1>
         </div>
 
-        {/* Line Chart */}
-        <PushupLineChart 
-          chartData={chartData}
-          formatNumber={formatNumber}
-        />
+        <div className="grid grid-cols-1 xl:grid-cols-7 gap-4 sm:gap-6">
+          {/* Line Chart */}
+          <div className="xl:col-span-4 transform transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
+            <PushupLineChart 
+              chartData={chartData}
+              formatNumber={formatNumber}
+            />
+          </div>
+
+          <div className="xl:col-span-3 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-4 sm:gap-6">
+            {/* Pie Chart */}
+            <div className="transform transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
+              <PieChartComponent 
+                totalPushups={totalPushups}
+                todaysPushups={todaysPushups}
+                completedDays={completedDays}
+                totalWeekdays={totalWeekdays}
+              />
+            </div>
+
+            {/* Upcoming Days */}
+            <div className="transform transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
+              <UpcomingDays 
+                upcomingDays={upcomingDays}
+                formatNumber={formatNumber}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

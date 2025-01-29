@@ -13,7 +13,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -52,9 +51,8 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
 
   return (
     <Card className="bg-gray-900/50 shadow-lg border border-red-500/20 backdrop-blur-sm">
-      <CardHeader className="space-y-2">
-        <CardTitle className="text-white text-xl sm:text-2xl">2025 Pushup Challenge</CardTitle>
-        <CardDescription className="text-gray-400 text-sm sm:text-base">Daily Progress</CardDescription>
+      <CardHeader>
+        <CardTitle className="text-white text-xl sm:text-2xl">Daily Progress</CardTitle>
       </CardHeader>
       <CardContent className="p-0 sm:p-6">
         <ChartContainer config={chartConfig}>
@@ -141,16 +139,18 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                             key={`${dotId}-circle`}
                             cx={props.cx} 
                             cy={props.cy} 
-                            r={4}
-                            fill="rgb(239, 68, 68)"
+                            r={6}
+                            fill="white"
+                            stroke="rgb(239, 117, 68)"
+                            strokeWidth={2}
                           />
                           <text
                             key={`${dotId}-text`}
                             x={props.cx}
-                            y={props.cy - 10}
+                            y={props.cy - 15}
                             textAnchor="middle"
-                            fill="rgb(239, 68, 68)"
-                            fontSize={10}
+                            fill="rgb(255, 255, 255)"
+                            fontSize={12}
                             className="hidden sm:block"
                           >
                             {formatNumber(props.payload.cumulativePushups)}
@@ -177,15 +177,8 @@ export function PushupLineChart({ chartData, formatNumber }: LineChartProps) {
                   const isQuarterMark = chartData.find(
                     (d) => d.cumulativePushups === props.value && d.quarterMark
                   );
-                  const today = new Date().toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric' 
-                  });
-                  const isToday = chartData.find(
-                    (d) => d.cumulativePushups === props.value && d.date === today
-                  );
                   
-                  if (!isQuarterMark && !isToday) return null;
+                  if (!isQuarterMark) return null;
                   
                   const xPos = typeof props.x === 'number' ? props.x : 0;
                   const yPos = typeof props.y === 'number' ? props.y : 0;

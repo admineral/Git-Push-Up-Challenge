@@ -77,14 +77,18 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface PieChartComponentProps {
+  // @typescript-eslint/no-unused-vars
   totalPushups: number;
+  // @typescript-eslint/no-unused-vars
   todaysPushups: number;
   completedDays: number;
   totalWeekdays: number;
 }
 
 export function PieChartComponent({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   totalPushups,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   todaysPushups,
   completedDays,
   totalWeekdays
@@ -109,7 +113,7 @@ export function PieChartComponent({
         <div className="grid gap-1">
           <CardTitle className="text-white">Monthly Pushup Distribution</CardTitle>
           <CardDescription className="text-gray-400">
-            {formatNumber(completedDays)} of {formatNumber(totalWeekdays)} days completed • {formatNumber(todaysPushups)} pushups today • {formatNumber(totalPushups)} total pushups
+            {formatNumber(completedDays)} of {formatNumber(totalWeekdays)} days completed
           </CardDescription>
         </div>
         <Select value={activeMonth} onValueChange={setActiveMonth}>
